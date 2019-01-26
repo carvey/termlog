@@ -39,17 +39,5 @@ def on_get_charles_log(data):
     log = open(join(storage_path, host_logs[0])).read()
     emit('recv_charles_log', {"log": log})
 
-#@socketio.on('create')
-#def on_create(data):
-#    """Create a game lobby"""
-#    gm = game.Info(
-#        size=data['size'],
-#        teams=data['teams'],
-#        dictionary=data['dictionary'])
-#    room = gm.game_id
-#    ROOMS[room] = gm
-#    join_room(room)
-#    emit('join_room', {'room': room})
-
 if __name__ == '__main__':
     socketio.run(app, debug=True)

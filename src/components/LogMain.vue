@@ -2,9 +2,13 @@
 
     <div id="LogMain">
       <p>Big log template</p>
-      <input type="text" />
       <button @click="emitClick">emit</button>
-      <HostLog log="test log"></hostLog>
+      <HostLog
+		  v-for="log in logs"
+		  v-bind:key="log.id"
+		  v-bind:command="log.command"
+		  v-bind:log="log.command"
+      ></HostLog>
     </div>
 
 </template>
@@ -18,6 +22,12 @@ import HostLog from './HostLog.vue'
         components: {
             HostLog
         },
+        data: function() {
+			return {
+				logs: [],
+				nextIndex: 1
+			}
+        },
         sockets: {
             connect: function() {
                 this.$socket.emit('log_hosts');
@@ -26,8 +36,7 @@ import HostLog from './HostLog.vue'
                 console.log(data);
             },
             recv_charles_log: function(data) {
-                console.log("Received!");
-                console.log(data);
+				this.logs.push({id: this.nextIndex++, command: data.log});
             }
         },
         methods: {
