@@ -1,8 +1,8 @@
 
 <template>
 
-	<div id="HostLog">
-  	  <pre>{{ log }}</pre>
+	<div class="HostLog">
+	  <pre>{{ log }}</pre>
 	</div>
 
 </template>
