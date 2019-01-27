@@ -2,13 +2,15 @@
   <div id="app">
 
 	<v-container grid-list-md text-xs-center>
+
 		<div id="sidebar">
 			<SideBar></SideBar>
 		</div>
+
 		<div id="content">
-			<img alt="Vue logo" src="./assets/logo.png">
 			<LogMain msg="Welcome to Your Vue.js App"/>
 		</div>
+
 	</v-container>
 
   </div>

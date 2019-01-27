@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-  	class="nav"
+  class="nav"
     :mini-variant.sync="mini"
     v-model="drawer"
     hide-overlay
@@ -33,17 +33,17 @@
       <v-divider></v-divider>
 
       <v-list-tile
-        v-for="item in items"
-        :key="item.title"
+        v-for="host in hosts"
+        :key="host.id"
         @click=""
       >
 
         <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
+          <v-icon>mood</v-icon>
         </v-list-tile-action>
 
         <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          <v-list-tile-title>{{ host }}</v-list-tile-title>
         </v-list-tile-content>
 
       </v-list-tile>
@@ -54,17 +54,25 @@
 
 <script>
   export default {
-  	name: "SideBar",
+  name: "SideBar",
     data () {
       return {
         drawer: true,
-        items: [
-          { title: 'Home', icon: 'dashboard' },
-          { title: 'About', icon: 'question_answer' }
-        ],
+        hosts: this.$store.getters.host_names,
         mini: true,
         right: null
       }
+    },
+    sockets: {
+      connect: function() {
+        console.log("emitting connect");
+        this.$socket.emit('log_hosts');
+      },
+      recv_log_hosts: function(data) {
+        this.$store.commit('add_host', "charles");
+        console.log(this.$store.state.hosts);
+        console.log(this.$store.getters.host_names)
+      },
     }
   }
 </script>

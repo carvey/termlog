@@ -31,7 +31,7 @@ def get_log_hosts():
 @socketio.on('log_hosts')
 def on_get_hosts():
     host_logs = get_log_hosts()
-    emit('log_hosts', host_logs)
+    emit('recv_log_hosts', host_logs)
 
 @socketio.on('get_charles_log')
 def on_get_charles_log(data):
