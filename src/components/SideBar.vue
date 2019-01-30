@@ -33,8 +33,8 @@
       <v-divider></v-divider>
 
       <v-list-tile
-        v-for="host in hosts"
-        :key="host.id"
+        v-for="(host, index) in hosts"
+        :key="index"
         @click=""
       >
 
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
+
   export default {
   name: "SideBar",
     data () {
@@ -65,7 +67,6 @@
     },
     sockets: {
       connect: function() {
-        console.log("emitting connect");
         this.$socket.emit('log_hosts');
       },
       recv_log_hosts: function(data) {

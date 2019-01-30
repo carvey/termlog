@@ -1,6 +1,8 @@
 <template>
 
+
     <div id="LogMain">
+	<button @click="emitClick">emit</button>
       <HostLog
       v-for="log in logs"
       v-bind:key="log.id"
@@ -26,6 +28,20 @@ import HostLog from './HostLog.vue'
             nextIndex: 1
           }
         },
+        sockets: {
+			            recv_charles_log: function(data) {
+                console.log("Received!");
+                console.log(data);
+            }
+
+        },
+                methods: {
+            emitClick () {
+            	console.log("clicked");
+                this.$socket.emit('get_charles_log', 'test');
+            }
+        }
+
     }
 
 /*

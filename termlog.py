@@ -18,11 +18,15 @@ host_logs = []
 @app.route('/')
 def index():
     """Serve the index HTML"""
-    return render_template('index.html')
+    return "Hello"
 
 @socketio.on('connect')
 def on_connect():
     emit('log_hosts', {'hosts': ['blah1', 'blah2']})
+
+@socketio.on('recv-log')
+def on_log(data):
+    print(data)
 
 def get_log_hosts():
     host_logs = [fle for fle in listdir(storage_path) if isfile(join(storage_path, fle))]
