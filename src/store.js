@@ -9,6 +9,12 @@ export default new Vuex.Store({
   },
   mutations: {
     add_host(state, host_name) {
+      for (let host of state.hosts) {
+        if (host.name == host_name) {
+          return
+        }
+        
+      }
       state.hosts.push({"name": host_name, "logs": []}) 
     }
   },

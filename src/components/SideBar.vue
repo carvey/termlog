@@ -60,19 +60,24 @@
     data () {
       return {
         drawer: true,
-        hosts: this.$store.getters.host_names,
+        
         mini: true,
         right: null
+      }
+    },
+    computed: {
+      hosts() {
+        return this.$store.getters.host_names
       }
     },
     sockets: {
       connect: function() {
         this.$socket.emit('log_hosts');
       },
-      recv_log_hosts: function(data) {
-        this.$store.commit('add_host', "charles");
-        console.log(this.$store.state.hosts);
-        console.log(this.$store.getters.host_names)
+      recv_log_hosts: function(hosts) {
+        for (let host of hosts) {
+          this.$store.commit('add_host', host);
+        }
       },
     }
   }

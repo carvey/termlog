@@ -29,16 +29,13 @@ import HostLog from './HostLog.vue'
           }
         },
         sockets: {
-			            recv_charles_log: function(data) {
-                console.log("Received!");
-                console.log(data);
-            }
+          command_added: function(data) {
+          },
 
         },
-                methods: {
+        methods: {
             emitClick () {
-            	console.log("clicked");
-                this.$socket.emit('get_charles_log', 'test');
+              this.$socket.emit('get_charles_log', 'test');
             }
         }
 
