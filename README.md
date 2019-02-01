@@ -1,4 +1,4 @@
-# conlog
+# TermLog
 
 ## Project setup
 ```
