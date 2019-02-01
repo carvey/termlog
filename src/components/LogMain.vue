@@ -1,15 +1,21 @@
 <template>
 
+  <div id="log-pane">
+
+    <div class="loading" v-if="loading">
+      Loading ...
+    </div>
+
 
     <div id="LogMain">
-	<button @click="emitClick">emit</button>
       <HostLog
       v-for="log in logs"
       v-bind:key="log.id"
-      v-bind:command="log.command"
       v-bind:log="log.command"
       ></HostLog>
     </div>
+
+  </div>
 
 </template>
 
@@ -22,31 +28,40 @@ import HostLog from './HostLog.vue'
         components: {
             HostLog
         },
+        created() {
+          this.fetch_log()
+        },
+        watch: {
+          '$route': 'fetch_log'
+        },
         data: function() {
           return {
             logs: [],
-            nextIndex: 1
+            host: null,
+            loading: true,
+            next_id: 1,
+            log_str: ""
+          }
+        },
+        methods: {
+          fetch_log() {
+            this.host = this.$route.params.name
+            this.$socket.emit('get_log', this.host)
           }
         },
         sockets: {
-          command_added: function(data) {
-          },
+          recv_log: function(data) {
+            this.loading = true;
+            this.logs = [];
 
-        },
-        methods: {
-            emitClick () {
-              this.$socket.emit('get_charles_log', 'test');
+            for (let line in data.log) {
+              this.logs.push({ id: this.next_id++, command: data.log[line]})
             }
+
+            this.loading = false
+          }
         }
 
     }
-
-/*
-    sockets: {
-        recv_charles_log: function(data) {
-      this.logs.push({id: this.nextIndex++, command: data.log});
-        }
-    },
-*/
 
 </script>

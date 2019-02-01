@@ -35,7 +35,7 @@
       <v-list-tile
         v-for="(host, index) in hosts"
         :key="index"
-        @click=""
+        @click="make_active(host)"
       >
 
         <v-list-tile-action>
@@ -43,7 +43,9 @@
         </v-list-tile-action>
 
         <v-list-tile-content>
-          <v-list-tile-title>{{ host }}</v-list-tile-title>
+          <v-list-tile-title>
+            {{ host }}
+          </v-list-tile-title>
         </v-list-tile-content>
 
       </v-list-tile>
@@ -60,7 +62,6 @@
     data () {
       return {
         drawer: true,
-        
         mini: true,
         right: null
       }
@@ -70,16 +71,35 @@
         return this.$store.getters.host_names
       }
     },
+    created() {
+      this.$socket.emit('log_hosts');
+    },
     sockets: {
-      connect: function() {
-        this.$socket.emit('log_hosts');
-      },
       recv_log_hosts: function(hosts) {
         for (let host of hosts) {
           this.$store.commit('add_host', host);
         }
       },
+      command_added: function(data) {
+        if (!this.$store.getters.host_names.includes(data.name)) {
+          this.$store.commit('add_host', data.name);             
+        }
+      },
+    },
+    methods: {
+      make_active(host_name) {
+        this.$router.replace({ name: 'log_view', params: { name: host_name } })
+      }
     }
   }
 </script>
 
+
+<style>
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+</style>

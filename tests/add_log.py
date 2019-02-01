@@ -9,6 +9,6 @@ class SubmitterNamespace(BaseNamespace):
 
 sock = SocketIO('localhost', 5000)
 submitter_namespace = sock.define(SubmitterNamespace, '/submit')
-submitter_namespace.emit('recv-log', {'name': 'joe', 'command': '> $ pwd'})
+submitter_namespace.emit('recv-log', {'name': 'joe', 'command': '> $ ls'})
 
 

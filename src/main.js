@@ -3,6 +3,8 @@ import App from './App.vue'
 import NavBar from './components/NavBar.vue'
 import store from './store'
 import VueSocketIO from 'vue-socket.io'
+import VueRouter from 'vue-router'
+import router from './routes.js'
 import Vuetify from 'vuetify'
 import io from 'socket.io-client';
 
@@ -20,14 +22,15 @@ Vue.use(new VueSocketIO({
 }))
 
 Vue.use(Vuetify)
+Vue.use(VueRouter)
 
 new Vue({
-  store,
   render: h => h(NavBar)
 }).$mount('#NavBar')
 
 new Vue({
   store,
+  router,
   render: h => h(App)
 }).$mount('#app')
 
