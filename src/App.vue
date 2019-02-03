@@ -52,7 +52,7 @@ export default {
   padding-top: 65px;
 }
 
-#content {
-
+.container {
+	padding: 10px 0 0 0 !important;
 }
 </style>
