@@ -71,9 +71,10 @@
           this.$store.commit('add_host', host);
         }
       },
-      command_added: function(data) {
-        if (!this.$store.getters.host_names.includes(data.name)) {
-          this.$store.commit('add_host', data.name);             
+      host_added: function(name) {
+      	  console.log(name);
+        if (!this.$store.getters.host_names.includes(name)) {
+          this.$store.commit('add_host', name);             
         }
       },
     },

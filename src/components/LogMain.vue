@@ -10,13 +10,14 @@
 			  <div id="host-header">{{host}}</div>
 			</div>
 
-			<div class="loading" v-if="loading">
-			  Loading ...
-			</div>
 
 		  </v-flex>
 
 		  <v-flex xs12>
+
+			<div class="loading" v-if="loading">
+			  Loading ...
+			</div>
 
 			<div id="LogMain">
 			  <HostLog
@@ -62,11 +63,11 @@ import HostLog from './HostLog.vue'
         methods: {
           fetch_log() {
             this.host = this.$route.params.name
-            this.$socket.emit('get_log', this.host)
+            this.$socket.emit('pull_log', this.host)
           }
         },
         sockets: {
-          recv_log: function(data) {
+          pull_log: function(data) {
             this.loading = true;
             this.logs = [];
 
@@ -75,6 +76,11 @@ import HostLog from './HostLog.vue'
             }
 
             this.loading = false
+          },
+
+          append_command: function(command) {
+          	  console.log("appending command");
+			 this.logs.push({ id: this.next_id++, command: command})
           }
         }
 
