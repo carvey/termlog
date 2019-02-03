@@ -38,6 +38,7 @@ export default {
   color: #2c3e50;
   margin: auto;
   padding: 10px;
+  margin-left: 250px;
 }
 
 #sidebar {

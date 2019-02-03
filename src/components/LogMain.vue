@@ -2,6 +2,10 @@
 
   <div id="log-pane">
 
+    <div id="host-header-block">
+      <div id="host-header">{{host}}</div>
+    </div>
+
     <div class="loading" v-if="loading">
       Loading ...
     </div>
@@ -65,3 +69,13 @@ import HostLog from './HostLog.vue'
     }
 
 </script>
+
+
+<style>
+
+  #host-header {
+    float: left;
+    font-size: 32px; 
+  }
+
+</style>
