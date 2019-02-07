@@ -79,7 +79,6 @@ import HostLog from './HostLog.vue'
           },
 
           append_command: function(command) {
-          	  console.log("appending command");
 			 this.logs.push({ id: this.next_id++, command: command})
           }
         }
