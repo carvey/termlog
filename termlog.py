@@ -28,7 +28,6 @@ def on_log_pushed(data):
     add_command(name, command)
     
     # TODO: is this sending data back to the sender?
-    print(name)
     socketio.emit('append_command', command, room=name)
 
 def add_command(name, command):
