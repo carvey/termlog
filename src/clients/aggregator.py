@@ -2,6 +2,7 @@ import threading
 import socketserver
 import json
 import re
+import unicodedata
 
 from os.path import join
 
@@ -34,14 +35,17 @@ class LogAggregator:
         return name
 
     def clean(self, line):
-        line = line.strip()
-        escaped = LogAggregator.ansi_escape.sub('', line)
-        
+        escaped = "".join(ch for ch in escaped if unicodedata.category(ch)[0]!="C")
+        escaped = escaped.replace('\x00', '')
+
         if escaped == "%":
             return None
 
         if not escaped:
             return None
+
+        if escaped[-1] == "$" or escaped[-1] == "#":
+            escaped = escaped + " "
 
         return escaped
     
