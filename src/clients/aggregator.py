@@ -1,17 +1,66 @@
 import threading
 import socketserver
 import json
+import re
+
+from os.path import join
 
 class LogAggregator:
+    
+    ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
 
-    def __init__(self):
-        pass
+    def __init__(self, store=None, forward=None):
+        self.store = store
+        self.forward = forward
 
-    def recv_lines(self, lines):
-        print(lines)
+    def recv_lines(self, path, lines):
+        stripped_lines = []
+
+        for line in lines:
+            cleaned_line = self.clean(line)
+
+            if cleaned_line:
+                stripped_lines.append(cleaned_line)
+
+        self.format_lines(stripped_lines, _print=True)
+
+        if self.store:
+            log_name = self.extract_log_name(path)
+            self.store_locally(log_name, stripped_lines)
+
+    def extract_log_name(self, path):
+        name = path.split('/')[-1]
+        name = name.split('.')[0]
+        return name
+
+    def clean(self, line):
+        line = line.strip()
+        escaped = LogAggregator.ansi_escape.sub('', line)
+        
+        if escaped == "%":
+            return None
+
+        if not escaped:
+            return None
+
+        return escaped
+    
+    def format_lines(self, lines, _print=False):
+        lines_str = "\n".join(lines)
+        if _print:
+            print(lines_str)
+
+        return lines_str
 
     def forward(self):
         pass
 
-    def store_locally(self):
-        pass
+    def store_locally(self, log, lines):
+        log_path = join(self.store, log)
+        log = open(log_path, 'a')
+        
+        lines_str = self.format_lines(lines)
+        log.write(lines_str)
+
+        log.close()
+
