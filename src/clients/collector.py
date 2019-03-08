@@ -1,6 +1,7 @@
 import threading
 from time import sleep
 
+
 from os import stat
 from os.path import join
 from aggregator import LogAggregator
@@ -56,13 +57,5 @@ class Handler(PatternMatchingEventHandler):
         if stat(path).st_size == 0:
             return None
 
-        fle = open(path, 'r+')
-        lines = fle.readlines()
-        fle.seek(0)
-        fle.truncate()
-        fle.close()
-
-        Handler.aggregator.recv_lines(path, lines)
-        
-
+        Handler.aggregator.recv_lines(path)
 
